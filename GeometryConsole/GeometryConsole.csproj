@@ -4,6 +4,10 @@
     <ProjectReference Include="..\Geometry.Library\Geometry.Library.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.FeatureManagement" Version="2.0.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
