@@ -28,12 +28,16 @@ class Program
         var featureManager = serviceProvider.GetRequiredService<IFeatureManager>();
 
         if (await featureManager.IsEnabledAsync("Square"))
-        {
-            //display area and perimeter of square
-            IShape square = new Square(9); 
-            Console.WriteLine($"Area of the square: {square.CalculateArea()}");
-            Console.WriteLine($"Perimeter of the square: {square.CalculatePerimeter()}");
+        {    /// display area and perimeter of square
+            double squareSide;
+            if (TryGetUserInput("Enter side length for Square:", out squareSide))
+            {
+                IShape square = new Square(squareSide); 
+                Console.WriteLine($"Area of the square: {square.CalculateArea()}");
+                Console.WriteLine($"Perimeter of the square: {square.CalculatePerimeter()}");
+            }
         }
+
         else
         {
           //Displaying message if square feature is disabled
@@ -42,9 +46,14 @@ class Program
         if (await featureManager.IsEnabledAsync("Rectangle"))
         {
             // display area and perimeter of rectangle
-            IShape rectangle = new Rectangle(3, 7); 
-            Console.WriteLine($"Area of the rectangle: {rectangle.CalculateArea()}");
-            Console.WriteLine($"Perimeter of the rectangle: {rectangle.CalculatePerimeter()}");
+            double rectangleLength, rectangleWidth;
+            if (TryGetUserInput("Enter length for Rectangle:", out rectangleLength) &&
+                TryGetUserInput("Enter width for Rectangle:", out rectangleWidth))
+            {
+                IShape rectangle = new Rectangle(rectangleLength, rectangleWidth); 
+                Console.WriteLine($"Area of the rectangle: {rectangle.CalculateArea()}");
+                Console.WriteLine($"Perimeter of the rectangle: {rectangle.CalculatePerimeter()}");
+            }
         }
         else
         {
@@ -54,13 +63,35 @@ class Program
         if (await featureManager.IsEnabledAsync("Triangle"))
         {
             // display area and perimeter of triangle
-            IShape triangle = new Triangle(4, 2, 6); 
-            Console.WriteLine($"Area of the triangle: {triangle.CalculateArea()}");
-            Console.WriteLine($"Perimeter of the triangle: {triangle.CalculatePerimeter()}");
+           double triangleSide1, triangleSide2, triangleSide3;
+            if (TryGetUserInput("Enter side 1 for Triangle:", out triangleSide1) &&
+                TryGetUserInput("Enter side 2 for Triangle:", out triangleSide2) &&
+                TryGetUserInput("Enter side 3 for Triangle:", out triangleSide3))
+            {
+                IShape triangle = new Triangle(triangleSide1, triangleSide2, triangleSide3); 
+                Console.WriteLine($"Area of the triangle: {triangle.CalculateArea()}");
+                Console.WriteLine($"Perimeter of the triangle: {triangle.CalculatePerimeter()}");
+            }
         }
         else
         {
             Console.WriteLine("Triangle feature is disabled!!!");
         }
+        static bool TryGetUserInput(string prompt, out double result)
+    {
+        Console.Write(prompt);
+        string input = Console.ReadLine();
+        if (double.TryParse(input, out result) && result > 0)
+        {
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid positive number.");
+            result = 0;
+            return false;
+        }
     }
+
+}
 }
