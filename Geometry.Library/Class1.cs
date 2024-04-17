@@ -48,3 +48,28 @@ public class Rectangle : IShape
     }
 }
 
+public class Triangle : IShape
+{
+    private double firstSide;
+    private double secondSide;
+    private double thirdSide;
+
+    public Triangle(double firstSide, double secondSide, double thirdSide)
+    {
+        this.firstSide = firstSide;
+        this.secondSide = secondSide;
+        this.thirdSide = thirdSide;
+    }
+
+    public double CalculateArea()
+    {
+        ///Using the formula of Heron's to calculate the area of triangle
+        double SA = (firstSide + secondSide + thirdSide) / 2;
+        return Math.Sqrt(SA * (SA - firstSide) * (SA - secondSide) * (SA - thirdSide));
+    }
+
+    public double CalculatePerimeter()
+    {
+        return firstSide + secondSide + thirdSide;
+    }
+}
